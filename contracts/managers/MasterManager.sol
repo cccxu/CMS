@@ -38,13 +38,13 @@ contract MasterManager {
     }
 
     //创建导师信息合约
-    function newMaster(bytes32 _name, uint64 _phone, string memory _email)
+    function newMaster(bytes32 _name, uint64 _phone, string memory _email, address _owner)
         public
         onlyAdmin
     {
-        address addr = address(new Master(_name, _phone, _email, msg.sender));
-        masters[msg.sender] = addr;
-        mastersList.push(addr);
+        address addr = address(new Master(_name, _phone, _email, _owner));
+        masters[_owner] = addr;
+        mastersList.push(_owner);
     }
 
     //销毁导师信息合约并移除导师
