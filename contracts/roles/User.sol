@@ -19,8 +19,21 @@ contract User {
     //个人地址
     address owner;
 
+    //申请加入的社团
+    address[] applyClubs; //与已经加入的社团有相同的权限，申请被拒绝后将移除权限；
     //加入的社团
     address[] myClubs;
+    //临时授权允许写myClubs列表
+    address public tempAuth; //设置为public，这样在申请创建社团后就可以检查是否授予了临时权限
+
+    //通知
+    notification[] notices; //通知列表
+    struct notification {
+        string _type; //比如社团通知，学校通知，用户私信等
+        address from;
+        string time; //由于内置时间格式支持缺失，使用string存储
+        string message;
+    }
 
     modifier onlyOwner {
         require(msg.sender == owner, "不是合约拥有者");
@@ -35,7 +48,15 @@ contract User {
                 break;
             }
         }
-        require(flag, "不是已加入的社团");
+        if (!flag) {
+            for (uint256 i = 0; i < applyClubs.length; i++) {
+                if (applyClubs[i] == msg.sender) {
+                    flag = true;
+                    break;
+                }
+            }
+        }
+        require(flag, "社团无授权");
         _;
     }
 
@@ -47,9 +68,27 @@ contract User {
                 break;
             }
         }
+        if (!flag) {
+            for (uint256 i = 0; i < applyClubs.length; i++) {
+                if (applyClubs[i] == msg.sender) {
+                    flag = true;
+                    break;
+                }
+            }
+        }
         require(flag || msg.sender == owner, "不是已加入的社团或合约拥有者");
         _;
     }
+    ////////事件////////////
+
+    event applyPassEvent(address club); //新加入社团通过
+
+    event newNotification(
+        string mtype,
+        address _from,
+        string time,
+        string message
+    );
 
     ////////方法/////////////
 
@@ -96,15 +135,101 @@ contract User {
         view
         clubsOrSelf
         returns (
-            bool gender,
-            uint64 phone,
-            uint64 qq,
-            string memory email,
-            bytes32 location,
-            bytes32[] memory language,
-            bytes32[] memory hobby
+            bool _gender,
+            uint64 _phone,
+            uint64 _qq,
+            string memory _email,
+            bytes32 _location,
+            bytes32[] memory _language,
+            bytes32[] memory _hobby
         )
     {
         return (gender, phone, qq, email, location, language, hobby);
+    }
+
+    function newNotice(
+        string memory mtype,
+        address _from,
+        string memory _time,
+        string memory _message
+    ) public {
+        notices.push(
+            notification({
+                _type: mtype,
+                from: _from,
+                time: _time,
+                message: _message
+            })
+        );
+
+        emit newNotification(mtype, _from, _time, _message);
+    }
+
+    //授予临时权限，用于创建社团后ClubManager将社团信息写入myClubs
+    function setTempAuth(address addr) public onlyOwner {
+        tempAuth = addr;
+    }
+
+    function addClub(address club) public {
+        require(msg.sender == owner || msg.sender == tempAuth, "无权操作");
+        //避免重复添加
+        for (uint256 i = 0; i < myClubs.length; i++) {
+            if (myClubs[i] == club) {
+                return;
+            }
+        }
+        myClubs.push(club);
+    }
+
+    function addApplyClub(address club) public onlyOwner {
+        for (uint256 i = 0; i < applyClubs.length; i++) {
+            if (applyClubs[i] == club) {
+                return;
+            }
+        }
+        //将社团加入applyClubs
+        applyClubs.push(club);
+    }
+
+    function applyPass() public {
+        //权限检查
+        bool flag = false;
+        uint256 index;
+        for (uint256 i = 0; i < applyClubs.length; i++) {
+            if (applyClubs[i] == msg.sender) {
+                flag = true;
+                index = i;
+                break;
+            }
+        }
+        require(flag, "没有申请加入社团");
+        //将社团加入myClubs
+        myClubs.push(msg.sender);
+        //从申请列表移除
+        applyClubs[index] = applyClubs[applyClubs.length - 1];
+        applyClubs.pop();
+
+        emit applyPassEvent(msg.sender);
+    }
+
+    function applyRefus() public {
+        //权限检查
+        bool flag = false;
+        uint256 index;
+        for (uint256 i = 0; i < applyClubs.length; i++) {
+            if (applyClubs[i] == msg.sender) {
+                flag = true;
+                index = i;
+                break;
+            }
+        }
+        require(flag, "没有申请加入社团");
+        //将社团移除申请列表
+        //从申请列表移除
+        applyClubs[index] = applyClubs[applyClubs.length - 1];
+        applyClubs.pop();
+
+        //发出通知
+        emit newNotification("社团消息", address(this), "", "社团加入申请被拒绝");
     }
 }

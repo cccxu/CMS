@@ -1,6 +1,5 @@
 const UserManager = artifacts.require("UserManager");
 const User = artifacts.require("User");
-const UserInterface = artifacts.require("UserInterface");
 
 contract("UserManager", accounts => {
     it("建立并检索用户合约", () => {

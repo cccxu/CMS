@@ -25,7 +25,7 @@ contract Master {
         name = _name;
         phone = _phone;
         email = _email;
-        owmer = _owner;
+        owner = _owner;
     }
 
     function setInfo(bytes32 _name, uint64 _phone, string memory _email)

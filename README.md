@@ -13,4 +13,18 @@
 2. ClubManager将申请存入申请队列
 3. master检查申请队列，通过/拒绝申请
 4. 如果被拒绝，申请人将得到通知
-5. 如果通过，申请人将得到通知，并且Club合约被创建(MasteManager通过调用ClubManager的创建合约方法)，且申请人的clubs列表中会加入这个club
+5. 如果通过，申请人将得到通知(一并获得创建的club合约的地址)，并且Club合约被创建(MasteManager通过调用ClubManager的创建合约方法)，且申请人的clubs列表中会加入这个club
+
+### 部署
+
+1. 首先部署MasterManager
+2. 然后部署ClubManager
+3. 然后部署UserManager
+4. 部署ManagerCenter（传入已经创建的三个manager）
+
+### 加入社团
+
+1. User向club发出申请,并将club加入applyClub
+2. club将申请存储队列
+3. 主席检查队列，通过/拒绝申请
+4. 申请人将得到通知并进行对应操作
