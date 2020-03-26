@@ -12,12 +12,9 @@
     "lint": "eslint --ext .js,.vue src",
     "test:unit": "jest --clearCache && vue-cli-service test:unit",
     "test:ci": "npm run lint && npm run test:unit",
-    "svgo": "svgo -f src/icons/svg --config=src/icons/svgo.yml",
-    "build:modern": "vue-cli-service build --modern"
+    "svgo": "svgo -f src/icons/svg --config=src/icons/svgo.yml"
   },
   "dependencies": {
-    "@drizzle/store": "^1.5.1",
-    "@drizzle/vue-plugin": "^0.1.1",
     "axios": "0.18.1",
     "element-ui": "2.13.0",
     "js-cookie": "2.2.0",
