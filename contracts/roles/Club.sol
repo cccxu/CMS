@@ -19,6 +19,12 @@ contract Club {
         _;
     }
     //////////////////////////
+
+    //////////事件/////////////
+
+    event newMember(address _newMember);
+
+    //////////////////////////
     //////////函数/////////////
 
     constructor(bytes32 _name, address _presidium) public {
@@ -57,11 +63,19 @@ contract Club {
     }
 
     //审核特定的申请
-    function reviewApply(uint index, bool pass) public onlyPresidium{
-        if(pass){
-            
-        }else{
-            
+    function reviewApply(uint256 index, bool pass) public onlyPresidium {
+        User user = User(applicants[index]);
+        if (pass) {
+            //调用user的applyPass
+            user.applyPass();
+            //触发事件
+            emit newMember(applicants[index]);
+        } else {
+            user.applyRefus();
         }
+
+        //移除申请信息
+        applicants[index] = applicants[applicants.length - 1];
+        applicants.pop();
     }
 }
