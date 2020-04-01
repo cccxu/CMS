@@ -1,0 +1,26 @@
+{
+  "name": "cms",
+  "version": "1.0.0",
+  "description": "## 权限",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "solc": "^0.5.16"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cccxu/CMS.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cccxu/CMS/issues"
+  },
+  "homepage": "https://github.com/cccxu/CMS#readme"
+}

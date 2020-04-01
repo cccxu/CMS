@@ -28,5 +28,5 @@ contract("MasterManager", accounts => {
             .then(name => {
                 assert.equal(Utils.hex2Utf8(name), "王泡泡");
             });
-    })
+    });
 })

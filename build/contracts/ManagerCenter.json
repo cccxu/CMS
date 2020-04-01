@@ -69,15 +69,15 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_userManager\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_masterManager\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_clubManager\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"constant\":true,\"inputs\":[],\"name\":\"clubManager\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"masterManager\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"userManager\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/xuhao/dapps/CMS/contracts/managers/ManagerCenter.sol\":\"ManagerCenter\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/xuhao/dapps/CMS/contracts/managers/ClubManager.sol\":{\"keccak256\":\"0x66e5370d116cec5476fd8c9fd8f066596d5881693f9acfd2dda7b107f693c83d\",\"urls\":[\"bzz-raw://001db64cb8cffba45c4f625cf9f752e7573f68ecbc707938ba15594d15801934\",\"dweb:/ipfs/QmUEbyEP8ASR5tWYiyTVKJYJwNdBR7LA8pCmWkAyatq71y\"]},\"/Users/xuhao/dapps/CMS/contracts/managers/ManagerCenter.sol\":{\"keccak256\":\"0xbb510f9cc99e86a620b41f9f74f2dfaf6a8e7d322e8854d6a9c7571527e4c7f5\",\"urls\":[\"bzz-raw://5e349f27191b81b5e1e176443a63b16927c3c50fe41c013530b3d970c6d847cd\",\"dweb:/ipfs/QmWRjAB92aVZ5Vz7Gnm8k4LULJASS3T32RrzxZ4u4pycqK\"]},\"/Users/xuhao/dapps/CMS/contracts/managers/MasterManager.sol\":{\"keccak256\":\"0x306860533af1acfd51858bdd39ae7f15fd44f58dc27bfefe7a77b5410b1d15ef\",\"urls\":[\"bzz-raw://9627c53696ae66e69bd846c48bb9ffd0561e06803db21d49b98952c4a2960cf9\",\"dweb:/ipfs/QmTF3zcU3oWt5dGQEHg29vS5y3ap62MDRTKC6EMpWpe8V2\"]},\"/Users/xuhao/dapps/CMS/contracts/managers/UserManager.sol\":{\"keccak256\":\"0x5810f3d1dd5bc2568660808adfbc6f56d85671c25d29c1296cd8975d2058ba8e\",\"urls\":[\"bzz-raw://81386efda10d94cf1042d326806013f08cb5b7874d072dd3e1cb8daadac60f0c\",\"dweb:/ipfs/QmU1psCFfYsGC68WsM7wH5ac3gzABkgE1A1V3LQE4k34Jz\"]},\"/Users/xuhao/dapps/CMS/contracts/roles/Club.sol\":{\"keccak256\":\"0x9367fbfd312876ccf28b18bb1b27ec281a23270e32e132f34351ede29b3ffe90\",\"urls\":[\"bzz-raw://593370fbdd9534aed7b8e323e45c9946cbbdc2bcfa53de5742f0cfc02628dd4f\",\"dweb:/ipfs/QmSQxmTzBVKS5TJJkBKAyQJDnezScCnGfVbVcR7ZUpC6fY\"]},\"/Users/xuhao/dapps/CMS/contracts/roles/Master.sol\":{\"keccak256\":\"0xb3e0b9c6736ef0c1f873e32460c32243c7c1873ca4d9757aa868cb8f7f0e5eee\",\"urls\":[\"bzz-raw://bfe87f2acf523ba1c5bcd7f48acbd8652390f510ce0e21d38b7cf388f5b98e20\",\"dweb:/ipfs/QmcGtUBqpVhLmqKn3hnPzynU3R3BRQwPBqTqKt7fnCxbaT\"]},\"/Users/xuhao/dapps/CMS/contracts/roles/User.sol\":{\"keccak256\":\"0x6f8345bb3aad6b862eac3e2eabff32384a356d2d05d9e4bbf091eb9958f81d03\",\"urls\":[\"bzz-raw://39901bdef88ff941b9d82e863611bfe5b21db75233edfc400247c445bfe14c39\",\"dweb:/ipfs/QmQihGKdrLjqobeYjpxwophLqddzq36489fQnkqbYwuhZh\"]}},\"version\":1}",
-  "bytecode": "0x608060405234801561001057600080fd5b506040516105203803806105208339818101604052606081101561003357600080fd5b81019080805190602001909291908051906020019092919080519060200190929190505050826000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555081600160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555080600260006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055506000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1663d70914ec306040518263ffffffff1660e01b8152600401808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001915050600060405180830381600087803b1580156101ba57600080fd5b505af11580156101ce573d6000803e3d6000fd5b50505050600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1663d70914ec306040518263ffffffff1660e01b8152600401808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001915050600060405180830381600087803b15801561027357600080fd5b505af1158015610287573d6000803e3d6000fd5b50505050600260009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1663d70914ec306040518263ffffffff1660e01b8152600401808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001915050600060405180830381600087803b15801561032c57600080fd5b505af1158015610340573d6000803e3d6000fd5b505050505050506101ca806103566000396000f3fe608060405234801561001057600080fd5b50600436106100415760003560e01c80635c8a7687146100465780637158440914610090578063995e03bb146100da575b600080fd5b61004e610124565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b610098610149565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6100e261016f565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b600260009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff168156fea265627a7a72315820d2f7664e01c821ec52e45ce1c6394b91acf798b0587a1475d2cf733052ddfb2c64736f6c63430005100032",
-  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100415760003560e01c80635c8a7687146100465780637158440914610090578063995e03bb146100da575b600080fd5b61004e610124565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b610098610149565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6100e261016f565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b600260009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff168156fea265627a7a72315820d2f7664e01c821ec52e45ce1c6394b91acf798b0587a1475d2cf733052ddfb2c64736f6c63430005100032",
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_userManager\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_masterManager\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_clubManager\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"constant\":true,\"inputs\":[],\"name\":\"clubManager\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"masterManager\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"userManager\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/mnt/c/Users/XuHao/OneDrive/0_projects/dapps/CMS/contracts/managers/ManagerCenter.sol\":\"ManagerCenter\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/mnt/c/Users/XuHao/OneDrive/0_projects/dapps/CMS/contracts/managers/ClubManager.sol\":{\"keccak256\":\"0x66e5370d116cec5476fd8c9fd8f066596d5881693f9acfd2dda7b107f693c83d\",\"urls\":[\"bzz-raw://001db64cb8cffba45c4f625cf9f752e7573f68ecbc707938ba15594d15801934\",\"dweb:/ipfs/QmUEbyEP8ASR5tWYiyTVKJYJwNdBR7LA8pCmWkAyatq71y\"]},\"/mnt/c/Users/XuHao/OneDrive/0_projects/dapps/CMS/contracts/managers/ManagerCenter.sol\":{\"keccak256\":\"0xbb510f9cc99e86a620b41f9f74f2dfaf6a8e7d322e8854d6a9c7571527e4c7f5\",\"urls\":[\"bzz-raw://5e349f27191b81b5e1e176443a63b16927c3c50fe41c013530b3d970c6d847cd\",\"dweb:/ipfs/QmWRjAB92aVZ5Vz7Gnm8k4LULJASS3T32RrzxZ4u4pycqK\"]},\"/mnt/c/Users/XuHao/OneDrive/0_projects/dapps/CMS/contracts/managers/MasterManager.sol\":{\"keccak256\":\"0x306860533af1acfd51858bdd39ae7f15fd44f58dc27bfefe7a77b5410b1d15ef\",\"urls\":[\"bzz-raw://9627c53696ae66e69bd846c48bb9ffd0561e06803db21d49b98952c4a2960cf9\",\"dweb:/ipfs/QmTF3zcU3oWt5dGQEHg29vS5y3ap62MDRTKC6EMpWpe8V2\"]},\"/mnt/c/Users/XuHao/OneDrive/0_projects/dapps/CMS/contracts/managers/UserManager.sol\":{\"keccak256\":\"0x5810f3d1dd5bc2568660808adfbc6f56d85671c25d29c1296cd8975d2058ba8e\",\"urls\":[\"bzz-raw://81386efda10d94cf1042d326806013f08cb5b7874d072dd3e1cb8daadac60f0c\",\"dweb:/ipfs/QmU1psCFfYsGC68WsM7wH5ac3gzABkgE1A1V3LQE4k34Jz\"]},\"/mnt/c/Users/XuHao/OneDrive/0_projects/dapps/CMS/contracts/roles/Club.sol\":{\"keccak256\":\"0x37fa9301000953e3fbaf42001a80c701bdea12c541562a9ad5d674f132ff6c00\",\"urls\":[\"bzz-raw://ddfedd0f0849c9dac3c1961da25306f8c3752559ec1de2683f4db56c9f362ec5\",\"dweb:/ipfs/Qmb4e6pfLGfBgAThasa6Ad8Bfx7nfgXK4efun8zmpAAvrc\"]},\"/mnt/c/Users/XuHao/OneDrive/0_projects/dapps/CMS/contracts/roles/Master.sol\":{\"keccak256\":\"0xb3e0b9c6736ef0c1f873e32460c32243c7c1873ca4d9757aa868cb8f7f0e5eee\",\"urls\":[\"bzz-raw://bfe87f2acf523ba1c5bcd7f48acbd8652390f510ce0e21d38b7cf388f5b98e20\",\"dweb:/ipfs/QmcGtUBqpVhLmqKn3hnPzynU3R3BRQwPBqTqKt7fnCxbaT\"]},\"/mnt/c/Users/XuHao/OneDrive/0_projects/dapps/CMS/contracts/roles/User.sol\":{\"keccak256\":\"0x6f8345bb3aad6b862eac3e2eabff32384a356d2d05d9e4bbf091eb9958f81d03\",\"urls\":[\"bzz-raw://39901bdef88ff941b9d82e863611bfe5b21db75233edfc400247c445bfe14c39\",\"dweb:/ipfs/QmQihGKdrLjqobeYjpxwophLqddzq36489fQnkqbYwuhZh\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b506040516105203803806105208339818101604052606081101561003357600080fd5b81019080805190602001909291908051906020019092919080519060200190929190505050826000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555081600160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555080600260006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055506000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1663d70914ec306040518263ffffffff1660e01b8152600401808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001915050600060405180830381600087803b1580156101ba57600080fd5b505af11580156101ce573d6000803e3d6000fd5b50505050600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1663d70914ec306040518263ffffffff1660e01b8152600401808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001915050600060405180830381600087803b15801561027357600080fd5b505af1158015610287573d6000803e3d6000fd5b50505050600260009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1663d70914ec306040518263ffffffff1660e01b8152600401808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001915050600060405180830381600087803b15801561032c57600080fd5b505af1158015610340573d6000803e3d6000fd5b505050505050506101ca806103566000396000f3fe608060405234801561001057600080fd5b50600436106100415760003560e01c80635c8a7687146100465780637158440914610090578063995e03bb146100da575b600080fd5b61004e610124565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b610098610149565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6100e261016f565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b600260009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff168156fea265627a7a72315820133085a1fba7de424a4b5b697741c0d86c073cc80086ab6be7fc3000162048c764736f6c63430005100032",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100415760003560e01c80635c8a7687146100465780637158440914610090578063995e03bb146100da575b600080fd5b61004e610124565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b610098610149565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6100e261016f565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b600260009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff168156fea265627a7a72315820133085a1fba7de424a4b5b697741c0d86c073cc80086ab6be7fc3000162048c764736f6c63430005100032",
   "sourceMap": "112:569:2:-;;;240:439;8:9:-1;5:2;;;30:1;27;20:12;5:2;240:439:2;;;;;;;;;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;240:439:2;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;381:12;367:11;;:26;;;;;;;;;;;;;;;;;;419:14;403:13;;:30;;;;;;;;;;;;;;;;;;457:12;443:11;;:26;;;;;;;;;;;;;;;;;;492:11;;;;;;;;;;;480:41;;;530:4;480:56;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;480:56:2;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;480:56:2;;;;560:13;;;;;;;;;;;546:45;;;600:4;546:60;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;546:60:2;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;546:60:2;;;;628:11;;;;;;;;;;;616:41;;;666:4;616:56;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;616:56:2;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;616:56:2;;;;240:439;;;112:569;;;;;;",
   "deployedSourceMap": "112:569:2:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;112:569:2;;;;;;;;;;;;;;;;;;;;;;;;;;;;;141:26;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;207;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;173:28;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;141:26;;;;;;;;;;;;;:::o;207:::-;;;;;;;;;;;;;:::o;173:28::-;;;;;;;;;;;;;:::o",
   "source": "pragma solidity ^0.5.0;\n\nimport \"./MasterManager.sol\";\nimport \"./ClubManager.sol\";\nimport \"./UserManager.sol\";\n\ncontract ManagerCenter {\n    address public userManager;\n    address public masterManager;\n    address public clubManager;\n\n    constructor(\n        address _userManager,\n        address _masterManager,\n        address _clubManager\n    ) public {\n        userManager = _userManager;\n        masterManager = _masterManager;\n        clubManager = _clubManager;\n\n        UserManager(userManager).setManagerCenter(address(this));\n        MasterManager(masterManager).setManagerCenter(address(this));\n        ClubManager(clubManager).setManagerCenter(address(this));\n    }\n}\n",
-  "sourcePath": "/Users/xuhao/dapps/CMS/contracts/managers/ManagerCenter.sol",
+  "sourcePath": "/mnt/c/Users/XuHao/OneDrive/0_projects/dapps/CMS/contracts/managers/ManagerCenter.sol",
   "ast": {
-    "absolutePath": "/Users/xuhao/dapps/CMS/contracts/managers/ManagerCenter.sol",
+    "absolutePath": "/mnt/c/Users/XuHao/OneDrive/0_projects/dapps/CMS/contracts/managers/ManagerCenter.sol",
     "exportedSymbols": {
       "ManagerCenter": [
         402
@@ -98,7 +98,7 @@
         "src": "0:23:2"
       },
       {
-        "absolutePath": "/Users/xuhao/dapps/CMS/contracts/managers/MasterManager.sol",
+        "absolutePath": "/mnt/c/Users/XuHao/OneDrive/0_projects/dapps/CMS/contracts/managers/MasterManager.sol",
         "file": "./MasterManager.sol",
         "id": 344,
         "nodeType": "ImportDirective",
@@ -109,7 +109,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/xuhao/dapps/CMS/contracts/managers/ClubManager.sol",
+        "absolutePath": "/mnt/c/Users/XuHao/OneDrive/0_projects/dapps/CMS/contracts/managers/ClubManager.sol",
         "file": "./ClubManager.sol",
         "id": 345,
         "nodeType": "ImportDirective",
@@ -120,7 +120,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/xuhao/dapps/CMS/contracts/managers/UserManager.sol",
+        "absolutePath": "/mnt/c/Users/XuHao/OneDrive/0_projects/dapps/CMS/contracts/managers/UserManager.sol",
         "file": "./UserManager.sol",
         "id": 346,
         "nodeType": "ImportDirective",
@@ -381,7 +381,7 @@
                             "name": "this",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 1669,
+                            "referencedDeclaration": 1967,
                             "src": "530:4:2",
                             "typeDescriptions": {
                               "typeIdentifier": "t_contract$_ManagerCenter_$402",
@@ -525,7 +525,7 @@
                             "name": "this",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 1669,
+                            "referencedDeclaration": 1967,
                             "src": "600:4:2",
                             "typeDescriptions": {
                               "typeIdentifier": "t_contract$_ManagerCenter_$402",
@@ -669,7 +669,7 @@
                             "name": "this",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 1669,
+                            "referencedDeclaration": 1967,
                             "src": "666:4:2",
                             "typeDescriptions": {
                               "typeIdentifier": "t_contract$_ManagerCenter_$402",
@@ -917,7 +917,7 @@
     "src": "0:682:2"
   },
   "legacyAST": {
-    "absolutePath": "/Users/xuhao/dapps/CMS/contracts/managers/ManagerCenter.sol",
+    "absolutePath": "/mnt/c/Users/XuHao/OneDrive/0_projects/dapps/CMS/contracts/managers/ManagerCenter.sol",
     "exportedSymbols": {
       "ManagerCenter": [
         402
@@ -938,7 +938,7 @@
         "src": "0:23:2"
       },
       {
-        "absolutePath": "/Users/xuhao/dapps/CMS/contracts/managers/MasterManager.sol",
+        "absolutePath": "/mnt/c/Users/XuHao/OneDrive/0_projects/dapps/CMS/contracts/managers/MasterManager.sol",
         "file": "./MasterManager.sol",
         "id": 344,
         "nodeType": "ImportDirective",
@@ -949,7 +949,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/xuhao/dapps/CMS/contracts/managers/ClubManager.sol",
+        "absolutePath": "/mnt/c/Users/XuHao/OneDrive/0_projects/dapps/CMS/contracts/managers/ClubManager.sol",
         "file": "./ClubManager.sol",
         "id": 345,
         "nodeType": "ImportDirective",
@@ -960,7 +960,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/xuhao/dapps/CMS/contracts/managers/UserManager.sol",
+        "absolutePath": "/mnt/c/Users/XuHao/OneDrive/0_projects/dapps/CMS/contracts/managers/UserManager.sol",
         "file": "./UserManager.sol",
         "id": 346,
         "nodeType": "ImportDirective",
@@ -1221,7 +1221,7 @@
                             "name": "this",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 1669,
+                            "referencedDeclaration": 1967,
                             "src": "530:4:2",
                             "typeDescriptions": {
                               "typeIdentifier": "t_contract$_ManagerCenter_$402",
@@ -1365,7 +1365,7 @@
                             "name": "this",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 1669,
+                            "referencedDeclaration": 1967,
                             "src": "600:4:2",
                             "typeDescriptions": {
                               "typeIdentifier": "t_contract$_ManagerCenter_$402",
@@ -1509,7 +1509,7 @@
                             "name": "this",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 1669,
+                            "referencedDeclaration": 1967,
                             "src": "666:4:2",
                             "typeDescriptions": {
                               "typeIdentifier": "t_contract$_ManagerCenter_$402",
@@ -1769,7 +1769,7 @@
     }
   },
   "schemaVersion": "3.0.23",
-  "updatedAt": "2020-03-26T08:43:41.173Z",
+  "updatedAt": "2020-03-30T06:06:02.778Z",
   "devdoc": {
     "methods": {}
   },

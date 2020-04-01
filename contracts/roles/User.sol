@@ -1,5 +1,8 @@
 pragma solidity ^0.5.0;
 
+import "./Activity.sol";
+
+
 contract User {
     /////用户个人信息//////
     //基本信息
@@ -14,7 +17,6 @@ contract User {
     bytes32 location; //使用明文保存地址信息，避免地区代码带来的转换问题
     bytes32[] language; //使用的语言
     bytes32[] hobby; //个人爱好
-    ////////权限验证/////////
 
     //个人地址
     address owner;
@@ -24,17 +26,27 @@ contract User {
     //加入的社团
     address[] myClubs;
     //临时授权允许写myClubs列表
-    address public tempAuth; //设置为public，这样在申请创建社团后就可以检查是否授予了临时权限
+    address[] public tempAuth; //设置为public，这样在申请创建社团后就可以检查是否授予了临时权限
 
-    //通知
-    notification[] notices; //通知列表
-    struct notification {
-        string _type; //比如社团通知，学校通知，用户私信等
+    //私信
+    bool pmFlag; //true: 所有人可以发送私信
+    address[] pmList; //pmFlag为false时仅列表内的人可以发送私信
+    pMessage[] pMessages; //私信列表
+    struct pMessage {
         address from;
         string time; //由于内置时间格式支持缺失，使用string存储
         string message;
     }
 
+    //参加的活动
+    activity[] activities; //活动记录
+    struct activity {
+        address actAddr; //活动合约地址
+        uint8 applyState; //申请状态（0 等待审核/1 已加入/2 被拒绝）
+        uint8 actState; //活动状态（0 未开始/1 进行中/2 已结束/3 已取消）
+    }
+
+    ///////////权限////////////////
     modifier onlyOwner {
         require(msg.sender == owner, "不是合约拥有者");
         _;
@@ -83,12 +95,9 @@ contract User {
 
     event applyPassEvent(address club); //新加入社团通过
 
-    event newNotification(
-        string mtype,
-        address _from,
-        string time,
-        string message
-    );
+    event newPMessage(address _from, string time, string message);
+
+    event clubRefus(address addr); //社团申请被拒绝
 
     ////////方法/////////////
 
@@ -147,31 +156,30 @@ contract User {
         return (gender, phone, qq, email, location, language, hobby);
     }
 
-    function newNotice(
-        string memory mtype,
+    function sendPMessage(
         address _from,
         string memory _time,
         string memory _message
     ) public {
-        notices.push(
-            notification({
-                _type: mtype,
-                from: _from,
-                time: _time,
-                message: _message
-            })
-        );
+        pMessages.push(pMessage({from: _from, time: _time, message: _message}));
 
-        emit newNotification(mtype, _from, _time, _message);
+        emit newPMessage(_from, _time, _message);
     }
 
     //授予临时权限，用于创建社团后ClubManager将社团信息写入myClubs
     function setTempAuth(address addr) public onlyOwner {
-        tempAuth = addr;
+        tempAuth.push(addr);
     }
 
     function addClub(address club) public {
-        require(msg.sender == owner || msg.sender == tempAuth, "无权操作");
+        bool flag = false;
+        for (uint256 i = 0; i < tempAuth.length - 1; i++) {
+            if (tempAuth[i] == msg.sender) {
+                flag = true;
+                break;
+            }
+        }
+        require(msg.sender == owner || flag, "无权添加社团");
         //避免重复添加
         for (uint256 i = 0; i < myClubs.length; i++) {
             if (myClubs[i] == club) {
@@ -209,6 +217,14 @@ contract User {
         applyClubs[index] = applyClubs[applyClubs.length - 1];
         applyClubs.pop();
 
+        //从临时权限列表移除
+        for (uint256 i = 0; i < tempAuth.length - 1; i++) {
+            if (tempAuth[i] == msg.sender) {
+                tempAuth[i] = tempAuth[tempAuth.length - 1];
+                tempAuth.pop();
+            }
+        }
+
         emit applyPassEvent(msg.sender);
     }
 
@@ -229,7 +245,66 @@ contract User {
         applyClubs[index] = applyClubs[applyClubs.length - 1];
         applyClubs.pop();
 
+        //从临时权限列表移除
+        for (uint256 i = 0; i < tempAuth.length - 1; i++) {
+            if (tempAuth[i] == msg.sender) {
+                tempAuth[i] = tempAuth[tempAuth.length - 1];
+                tempAuth.pop();
+            }
+        }
+
         //发出通知
-        emit newNotification("社团消息", address(this), "", "社团加入申请被拒绝");
+        emit clubRefus(address(this));
     }
+
+    //添加活动
+    function addAct(address addr) public onlyOwner {
+        Activity mactivity = Activity(addr);
+        uint8 state = mactivity.state();
+        if (state == 2 || state == 3) {
+            require(false, "活动已结束/已取消");
+        }
+        activities.push(
+            activity({actAddr: addr, applyState: 0, actState: state})
+        );
+        //提交申请
+        mactivity.join(owner);
+    }
+
+    //活动申请通过
+    function actPass() public {
+        //在列表中找到对应的活动
+        for (uint256 i = 0; i < activities.length; i++) {
+            if (activities[i].actAddr == msg.sender) {
+                activities[i].applyState = 1;
+                break;
+            }
+        }
+    }
+
+    //活动申请已提交
+    function actApply() public {
+        //在列表中找到对应的活动
+        for (uint256 i = 0; i < activities.length; i++) {
+            if (activities[i].actAddr == msg.sender) {
+                activities[i].applyState = 0;
+                break;
+            }
+        }
+    }
+
+    //活动申请被拒绝
+    function actRefus() public {
+        //在列表中找到对应的活动
+        for (uint256 i = 0; i < activities.length; i++) {
+            if (activities[i].actAddr == msg.sender) {
+                activities[i].applyState = 2;
+                break;
+            }
+        }
+    }
+
+    //TODO: 私信权限控制
+    //TODO: 发送私信
+    //TODO: 查看私信
 }
