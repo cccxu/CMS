@@ -29,11 +29,12 @@ contract User {
     address[] public tempAuth; //设置为public，这样在申请创建社团后就可以检查是否授予了临时权限
 
     //私信
-    bool pmFlag; //true: 所有人可以发送私信
-    address[] pmList; //pmFlag为false时仅列表内的人可以发送私信
-    pMessage[] pMessages; //私信列表
-    struct pMessage {
+    bool plFlag; //true: 所有人可以发送私信
+    address[] plList; //pmFlag为false时仅列表内的人可以发送私信
+    pLetter[] pLetters; //私信列表
+    struct pLetter {
         address from;
+        string title;
         string time; //由于内置时间格式支持缺失，使用string存储
         string message;
     }
@@ -99,6 +100,8 @@ contract User {
 
     event clubRefus(address addr); //社团申请被拒绝
 
+    event incomingMessage(string title, address from);
+
     ////////方法/////////////
 
     /**
@@ -154,16 +157,6 @@ contract User {
         )
     {
         return (gender, phone, qq, email, location, language, hobby);
-    }
-
-    function sendPMessage(
-        address _from,
-        string memory _time,
-        string memory _message
-    ) public {
-        pMessages.push(pMessage({from: _from, time: _time, message: _message}));
-
-        emit newPMessage(_from, _time, _message);
     }
 
     //授予临时权限，用于创建社团后ClubManager将社团信息写入myClubs
@@ -304,7 +297,88 @@ contract User {
         }
     }
 
-    //TODO: 私信权限控制
-    //TODO: 发送私信
-    //TODO: 查看私信
+    //私信权限控制
+
+    //控制是否所有人可以发送私信
+    function modifyPLFlag(bool _plFlag) public onlyOwner {
+        plFlag = _plFlag;
+    }
+
+    //向授权列表添加
+    function addToPLList(address addr) public onlyOwner {
+        //检查是否已经在授权列表中
+        for (uint256 i = 0; i < plList.length; i++) {
+            if (plList[i] == addr) {
+                return;
+            }
+        }
+        plList.push(addr);
+    }
+
+    //从授权列表移除
+    function removeFromPLList(address addr) public onlyOwner {
+        for (uint256 i = 0; i < plList.length; i++) {
+            if (plList[i] == addr) {
+                plList[i] = plList[plList.length - 1];
+                plList.pop();
+                break;
+            }
+        }
+    }
+
+    //发送私信
+    function sendPrivateLetter(
+        string memory _time,
+        string memory _title,
+        string memory _message
+    ) public {
+        if (!plFlag) {
+            bool flag = false;
+            for (uint256 i = 0; i < plList.length; i++) {
+                if (plList[i] == msg.sender) {
+                    flag = true;
+                }
+            }
+            require(flag, "没有私信权限");
+        }
+        pLetters.push(
+            pLetter({
+                from: msg.sender,
+                title: _title,
+                time: _time,
+                message: _message
+            })
+        );
+
+        emit incomingMessage(_title, msg.sender);
+    }
+
+    //查看私信
+    function getPrivateLetter(uint256 index)
+        public
+        view
+        onlyOwner
+        returns (
+            address from,
+            string memory title,
+            string memory time,
+            string memory message
+        )
+    {
+        return (
+            pLetters[index].from,
+            pLetters[index].title,
+            pLetters[index].time,
+            pLetters[index].message
+        );
+    }
+
+    function getPrivateLetterAmount()
+        public
+        view
+        onlyOwner
+        returns (uint256 amount)
+    {
+        return pLetters.length;
+    }
 }
