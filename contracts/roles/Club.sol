@@ -1,7 +1,8 @@
 pragma solidity ^0.5.0;
 
 import "./User.sol";
-import "./Activity.sol";
+import "../entities/Activity.sol";
+import "../entities/Vote.sol";
 
 
 contract Club {
@@ -53,6 +54,36 @@ contract Club {
             }
         }
         require(flag || addr == presidium, "不是社团部长或主席");
+        _;
+    }
+
+    //社团任意成员
+    modifier onlyPart(address addr) {
+        //是否主席
+        bool flag = false;
+        if (msg.sender == presidium) {
+            flag = true;
+        }
+        //是否部长k
+        if (!flag) {
+            for (uint256 i = 0; i < ministers.length; i++) {
+                if (ministers[i] == msg.sender) {
+                    flag = true;
+                    break;
+                }
+            }
+        }
+        //是否普通成员
+        if (!flag) {
+            for (uint256 i = 0; i < members.length; i++) {
+                if (members[i] == msg.sender) {
+                    flag = true;
+                    break;
+                }
+            }
+        }
+
+        require(flag, "不是社团成员");
         _;
     }
     //////////////////////////
@@ -327,33 +358,71 @@ contract Club {
     }
 
     //获取通知数量
-    function getNotifiAmount() public view returns (uint256 amount) {
-        //是否主席
-        bool flag = false;
-        if (msg.sender == presidium) {
-            flag = true;
-        }
-        //是否部长k
-        if (!flag) {
-            for (uint256 i = 0; i < ministers.length; i++) {
-                if (ministers[i] == msg.sender) {
-                    flag = true;
-                    break;
-                }
-            }
-        }
-        //是否普通成员
-        if (!flag) {
-            for (uint256 i = 0; i < members.length; i++) {
-                if (members[i] == msg.sender) {
-                    flag = true;
-                    break;
-                }
-            }
-        }
+    function getNotifiAmount()
+        public
+        view
+        onlyPart(msg.sender)
+        returns (uint256 amount)
+    {
+        return notifications.length;
+    }
 
-        if (flag) {
-            return notifications.length;
-        }
+    ///////////////////社团投票/////////////////////
+
+    address[] votes; //社团投票地址列表
+
+    //新建投票
+    event newVoteEvent(address vote);
+
+    function addVote(string memory name, bool open, address[] voter)
+        public
+        onlyPresidium
+    {
+        address addr = address(new Vote(name, open, voter));
+        votes.push(addr);
+
+        emit newVoteEvent(addr);
+    }
+
+    //获取投票
+    function getVote()
+        public
+        view
+        onlyPart(msg.sender)
+        returns (address[] _votes)
+    {
+        return votes;
+    }
+
+    //添加投票项
+    function addVoteItem(address vote, string memory description)
+        public
+        onlyPresidium
+    {
+        Vote v = Vote(vote);
+
+        v.addItem(description);
+    }
+
+    //开始投票
+    event votingStartEvent(address vote);
+
+    function startVote(address vote) public onlyPresidium {
+        Vote v = Vote(vote);
+
+        v.startVoting();
+
+        emit votingStartEvent(vote);
+    }
+
+    //结束投票
+    event votingEndEvetn(address vote);
+
+    function endVote(address vote) public onlyPresidium {
+        Vote v = Vote(vote);
+
+        v.endVoting();
+
+        emit votingEndEvent(vote);
     }
 }

@@ -1,6 +1,6 @@
 pragma solidity ^0.5.0;
 
-import "./Activity.sol";
+import "../entities/Activity.sol";
 
 
 contract User {

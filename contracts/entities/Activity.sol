@@ -1,7 +1,7 @@
 pragma solidity ^0.5.0;
 
-import "./Club.sol";
-import "./User.sol";
+import "../roles/Club.sol";
+import "../roles/User.sol";
 
 
 contract Activity {
