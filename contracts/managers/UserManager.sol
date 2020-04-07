@@ -2,6 +2,7 @@ pragma solidity ^0.5.0;
 
 import "../roles/User.sol";
 
+
 contract UserManager {
     address managerCenter;
 
@@ -11,9 +12,7 @@ contract UserManager {
     //权限限制
     address masterManager; //只有MasterManager可以读取usersList
 
-    ///////////权限////////////
-
-    ////////////函数///////////
+    /////////////////用户管理///////////////////
 
     /**
     @dev 创建个人信息合约
@@ -51,6 +50,7 @@ contract UserManager {
         return false;
     }
 
+    ////////////////manager管理////////////////
     function setManagerCenter(address center) public {
         address blank;
         if (managerCenter == blank) {

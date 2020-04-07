@@ -4,7 +4,23 @@ import "../entities/Activity.sol";
 
 
 contract User {
-    /////用户个人信息//////
+    //个人地址
+    address owner;
+
+    ////////创建////////////////////////////////////
+
+    /**
+    构造函数，只传入姓名，其余信息单独设置
+    */
+    constructor(bytes10 _name, address _owner) public {
+        name = _name;
+        owner = _owner;
+    }
+
+    //////////////////////////////////////////////
+    ///////////个人信息////////////////////////////
+    /////////////////////////////////////////////
+
     //基本信息
     bytes10 public name; //真实姓名，通过bytes10限制长度
     string public imgUrl; //头像url
@@ -17,100 +33,6 @@ contract User {
     bytes32 location; //使用明文保存地址信息，避免地区代码带来的转换问题
     bytes32[] language; //使用的语言
     bytes32[] hobby; //个人爱好
-
-    //个人地址
-    address owner;
-
-    //申请加入的社团
-    address[] applyClubs; //与已经加入的社团有相同的权限，申请被拒绝后将移除权限；
-    //加入的社团
-    address[] myClubs;
-    //临时授权允许写myClubs列表
-    address[] public tempAuth; //设置为public，这样在申请创建社团后就可以检查是否授予了临时权限
-
-    //私信
-    bool plFlag; //true: 所有人可以发送私信
-    address[] plList; //pmFlag为false时仅列表内的人可以发送私信
-    pLetter[] pLetters; //私信列表
-    struct pLetter {
-        address from;
-        string title;
-        string time; //由于内置时间格式支持缺失，使用string存储
-        string message;
-    }
-
-    //参加的活动
-    activity[] activities; //活动记录
-    struct activity {
-        address actAddr; //活动合约地址
-        uint8 applyState; //申请状态（0 等待审核/1 已加入/2 被拒绝）
-        uint8 actState; //活动状态（0 未开始/1 进行中/2 已结束/3 已取消）
-    }
-
-    ///////////权限////////////////
-    modifier onlyOwner {
-        require(msg.sender == owner, "不是合约拥有者");
-        _;
-    }
-
-    modifier onlyMyClubs {
-        bool flag = false;
-        for (uint256 i = 0; i < myClubs.length; i++) {
-            if (myClubs[i] == msg.sender) {
-                flag = true;
-                break;
-            }
-        }
-        if (!flag) {
-            for (uint256 i = 0; i < applyClubs.length; i++) {
-                if (applyClubs[i] == msg.sender) {
-                    flag = true;
-                    break;
-                }
-            }
-        }
-        require(flag, "社团无授权");
-        _;
-    }
-
-    modifier clubsOrSelf {
-        bool flag = false;
-        for (uint256 i = 0; i < myClubs.length; i++) {
-            if (myClubs[i] == msg.sender) {
-                flag = true;
-                break;
-            }
-        }
-        if (!flag) {
-            for (uint256 i = 0; i < applyClubs.length; i++) {
-                if (applyClubs[i] == msg.sender) {
-                    flag = true;
-                    break;
-                }
-            }
-        }
-        require(flag || msg.sender == owner, "不是已加入的社团或合约拥有者");
-        _;
-    }
-    ////////事件////////////
-
-    event applyPassEvent(address club); //新加入社团通过
-
-    event newPMessage(address _from, string time, string message);
-
-    event clubRefus(address addr); //社团申请被拒绝
-
-    event incomingMessage(string title, address from);
-
-    ////////方法/////////////
-
-    /**
-    构造函数，只传入姓名，其余信息单独设置
-    */
-    constructor(bytes10 _name, address _owner) public {
-        name = _name;
-        owner = _owner;
-    }
 
     function setImgUrl(string memory _imgUrl) public onlyOwner {
         imgUrl = _imgUrl;
@@ -159,10 +81,60 @@ contract User {
         return (gender, phone, qq, email, location, language, hobby);
     }
 
+    /////////////////////////////////////////////////////
+    ///////////授权//////////////////////////////////////
+    ////////////////////////////////////////////////////
+
+    //私信相关授权
+
+    bool plFlag; //true: 所有人可以发送私信
+    address[] plList; //pmFlag为false时仅列表内的人可以发送私信
+
+    //控制是否所有人可以发送私信
+    function modifyPLFlag(bool _plFlag) public onlyOwner {
+        plFlag = _plFlag;
+    }
+
+    //向授权列表添加
+    function addToPLList(address addr) public onlyOwner {
+        //检查是否已经在授权列表中
+        for (uint256 i = 0; i < plList.length; i++) {
+            if (plList[i] == addr) {
+                return;
+            }
+        }
+        plList.push(addr);
+    }
+
+    //从授权列表移除
+    function removeFromPLList(address addr) public onlyOwner {
+        for (uint256 i = 0; i < plList.length; i++) {
+            if (plList[i] == addr) {
+                plList[i] = plList[plList.length - 1];
+                plList.pop();
+                break;
+            }
+        }
+    }
+
+    //其他授权
+
+    //临时授权允许写myClubs列表
+    address[] public tempAuth; //设置为public，这样在申请创建社团后就可以检查是否授予了临时权限
+
     //授予临时权限，用于创建社团后ClubManager将社团信息写入myClubs
     function setTempAuth(address addr) public onlyOwner {
         tempAuth.push(addr);
     }
+
+    ///////////////////////////////////////////////////
+    ///////////社团////////////////////////////////////
+    //////////////////////////////////////////////////
+
+    //申请加入的社团
+    address[] applyClubs; //与已经加入的社团有相同的权限，申请被拒绝后将移除权限；
+    //加入的社团
+    address[] myClubs;
 
     function addClub(address club) public {
         bool flag = false;
@@ -191,6 +163,8 @@ contract User {
         //将社团加入applyClubs
         applyClubs.push(club);
     }
+
+    event applyPassEvent(address club); //新加入社团通过
 
     function applyPass() public {
         //权限检查
@@ -221,6 +195,9 @@ contract User {
         emit applyPassEvent(msg.sender);
     }
 
+    //申请被拒绝
+    event clubRefusEvent(address addr); //社团申请被拒绝
+
     function applyRefus() public {
         //权限检查
         bool flag = false;
@@ -247,7 +224,18 @@ contract User {
         }
 
         //发出通知
-        emit clubRefus(address(this));
+        emit clubRefusEvent(address(this));
+    }
+
+    ///////////////////////////////////////////////////////
+    ///////////活动///////////////////////////////////////////
+    ////////////////////////////////////////////////////
+    //参加的活动
+    activity[] activities; //活动记录
+    struct activity {
+        address actAddr; //活动合约地址
+        uint8 applyState; //申请状态（0 等待审核/1 已加入/2 被拒绝）
+        uint8 actState; //活动状态（0 未开始/1 进行中/2 已结束/3 已取消）
     }
 
     //添加活动
@@ -297,36 +285,23 @@ contract User {
         }
     }
 
-    //私信权限控制
+    ////////////////////////////////////////////////
+    ///////////私信/////////////////////////////////////
+    //////////////////////////////////////////////////
 
-    //控制是否所有人可以发送私信
-    function modifyPLFlag(bool _plFlag) public onlyOwner {
-        plFlag = _plFlag;
-    }
+    //私信
 
-    //向授权列表添加
-    function addToPLList(address addr) public onlyOwner {
-        //检查是否已经在授权列表中
-        for (uint256 i = 0; i < plList.length; i++) {
-            if (plList[i] == addr) {
-                return;
-            }
-        }
-        plList.push(addr);
-    }
-
-    //从授权列表移除
-    function removeFromPLList(address addr) public onlyOwner {
-        for (uint256 i = 0; i < plList.length; i++) {
-            if (plList[i] == addr) {
-                plList[i] = plList[plList.length - 1];
-                plList.pop();
-                break;
-            }
-        }
+    pLetter[] pLetters; //私信列表
+    struct pLetter {
+        address from;
+        string title;
+        string time; //由于内置时间格式支持缺失，使用string存储
+        string message;
     }
 
     //发送私信
+    event incomingMessage(string title, address from);
+
     function sendPrivateLetter(
         string memory _time,
         string memory _title,
@@ -380,5 +355,54 @@ contract User {
         returns (uint256 amount)
     {
         return pLetters.length;
+    }
+
+    //////////////////////////////////////////////////
+    ///////////权限///////////////////////////////////
+    ////////////////////////////////////////////////
+
+    modifier onlyOwner {
+        require(msg.sender == owner, "不是合约拥有者");
+        _;
+    }
+
+    modifier onlyMyClubs {
+        bool flag = false;
+        for (uint256 i = 0; i < myClubs.length; i++) {
+            if (myClubs[i] == msg.sender) {
+                flag = true;
+                break;
+            }
+        }
+        if (!flag) {
+            for (uint256 i = 0; i < applyClubs.length; i++) {
+                if (applyClubs[i] == msg.sender) {
+                    flag = true;
+                    break;
+                }
+            }
+        }
+        require(flag, "社团无授权");
+        _;
+    }
+
+    modifier clubsOrSelf {
+        bool flag = false;
+        for (uint256 i = 0; i < myClubs.length; i++) {
+            if (myClubs[i] == msg.sender) {
+                flag = true;
+                break;
+            }
+        }
+        if (!flag) {
+            for (uint256 i = 0; i < applyClubs.length; i++) {
+                if (applyClubs[i] == msg.sender) {
+                    flag = true;
+                    break;
+                }
+            }
+        }
+        require(flag || msg.sender == owner, "不是已加入的社团或合约拥有者");
+        _;
     }
 }

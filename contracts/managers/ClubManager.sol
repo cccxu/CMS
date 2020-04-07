@@ -5,6 +5,7 @@ import "../roles/Club.sol";
 import "../managers/UserManager.sol";
 import "../roles/User.sol";
 
+
 contract ClubManager {
     address managerCenter;
 
@@ -26,7 +27,7 @@ contract ClubManager {
         _;
     }
 
-    ///////////函数////////////
+    //////////////社团管理///////////////////
 
     function newClub(bytes32 _name, address _presidium)
         internal
@@ -115,6 +116,8 @@ contract ClubManager {
             clubApplies.pop();
         }
     }
+
+    ////////////manager管理///////////////////
 
     function setManagerCenter(address center) public {
         address blank;

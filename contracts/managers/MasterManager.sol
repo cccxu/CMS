@@ -6,6 +6,7 @@ import "./ClubManager.sol";
 
 import "../roles/User.sol";
 
+
 contract MasterManager {
     address managerCenter;
 
@@ -31,17 +32,19 @@ contract MasterManager {
         require(false, "只有导师有权操作！");
     }
 
-    //////////////////////////
+    /////////////导师管理/////////////
 
     constructor() public {
         admin = msg.sender;
     }
 
     //创建导师信息合约
-    function newMaster(bytes32 _name, uint64 _phone, string memory _email, address _owner)
-        public
-        onlyAdmin
-    {
+    function newMaster(
+        bytes32 _name,
+        uint64 _phone,
+        string memory _email,
+        address _owner
+    ) public onlyAdmin {
         address addr = address(new Master(_name, _phone, _email, _owner));
         masters[_owner] = addr;
         mastersList.push(_owner);
@@ -60,6 +63,8 @@ contract MasterManager {
         }
     }
 
+    /////////////manager管理///////////////////
+
     //更改管理员
     function setAdmin(address _admin) public onlyAdmin {
         admin = _admin;
@@ -67,7 +72,7 @@ contract MasterManager {
 
     function setManagerCenter(address center) public {
         address blank;
-        if(managerCenter==blank){
+        if (managerCenter == blank) {
             managerCenter = center;
         } else {
             require(msg.sender == managerCenter, "无权修改managerCenter的地址");

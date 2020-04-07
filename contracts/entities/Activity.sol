@@ -13,27 +13,7 @@ contract Activity {
 
     uint8 public state; //0 未开始，1 进行中，2 已结束，3 已取消
 
-    address[] members; //活动人员名单，个人地址
-    address[] applicants; //社团外人员申请列表
-
-    notification[] notifications; //社团通知
-    struct notification {
-        string title;
-        string date; //yyyy-MM-dd-hh-mm-ss
-        string info;
-    }
     //////////////事件/////////////
-
-    event applicantsChange();
-
-    event membersChange();
-
-    event stateChange();
-
-    event infoChange();
-
-    //发送活动通知
-    event newMessage(uint256 index);
 
     ///////////权限//////////////
 
@@ -66,7 +46,7 @@ contract Activity {
         _;
     }
 
-    ////////////////////////////
+    //////////////创建活动//////////////
 
     constructor(
         string memory _name,
@@ -81,76 +61,21 @@ contract Activity {
         message = _message;
     }
 
-    //查询人员名单
-    function getMember()
-        public
-        view
-        onlyMember(msg.sender)
-        returns (address[] memory)
-    {
-        return members;
-    }
-
-    //加入活动，活动所属社团成员可以直接加入，其余人员需等待社团部长/主席审核后通过
-    function join(address addr) public {
-        Club club = Club(owner);
-        if (club.isMember(addr)) {
-            //社团成员
-            //加入活动成员列表
-            members.push(addr);
-            //调用user的方法，返回成功信息（先调用申请提交，然后直接调用申请通过）
-            User user = User(addr);
-            user.actApply();
-            user.actPass();
-
-            emit membersChange();
-        } else {
-            //非社团成员
-            //加入申请列表
-            applicants.push(addr);
-            //调用user的方法，返回状态
-            User user = User(addr);
-            user.actApply();
-
-            emit applicantsChange();
-        }
-    }
-
-    //获取申请列表
-    function getApplies() public view returns (address[] memory) {
-        require(msg.sender == owner, "您没有权限查询申请列表");
-        return applicants;
-    }
-
-    //通过申请
-    function pass(address addr) public onlyApplicant(addr) {
-        require(msg.sender == owner, "您没有权限进行此操作");
-        for (uint256 i = 0; i < applicants.length; i++) {
-            if (applicants[i] == addr) {
-                User user = User(addr);
-                user.actPass();
-
-                //从申请列表移除
-                applicants[i] = applicants[applicants.length - 1];
-                applicants.pop();
-                //加入成员列表
-                members.push(addr);
-
-                emit membersChange();
-                emit applicantsChange();
-            }
-        }
-    }
+    ///////////////////////管理活动////////////////////
 
     //更改活动状态
+    event stateChangeEvent();
+
     function changeState(uint8 _state) public {
         require(msg.sender == owner, "没有权限修改活动状态");
         state = _state;
 
-        emit stateChange();
+        emit stateChangeEvent();
     }
 
     //修改活动信息
+    event infoChangeEvent();
+
     function changeInfo(
         string memory _name,
         string memory _date,
@@ -164,28 +89,95 @@ contract Activity {
         locate = _locate;
         message = _message;
 
-        emit infoChange();
+        emit infoChangeEvent();
     }
 
-    //发送通知
-    function addMessage(
-        string memory _title,
-        string memory _date,
-        string memory _info
-    ) public {
-        require(msg.sender == owner, "无权发送通知");
-        notifications.push(
-            notification({title: _title, date: _date, info: _info})
-        );
+    ///////////////获取活动状态////////////////////
 
-        emit newMessage(notifications.length - 1);
+    //查询人员名单
+    function getMember()
+        public
+        view
+        onlyMember(msg.sender)
+        returns (address[] memory)
+    {
+        return members;
+    }
+
+    ///////////////////人员相关////////////
+
+    address[] members; //活动人员名单，个人地址
+    address[] applicants; //社团外人员申请列表
+
+    //加入活动，活动所属社团成员可以直接加入，其余人员需等待社团部长/主席审核后通过
+    event membersChangeEvent();
+
+    function join(address addr) public {
+        Club club = Club(owner);
+        if (club.isMember(addr)) {
+            //社团成员
+            //加入活动成员列表
+            members.push(addr);
+            //调用user的方法，返回成功信息（先调用申请提交，然后直接调用申请通过）
+            User user = User(addr);
+            user.actApply();
+            user.actPass();
+
+            emit membersChangeEvent();
+        } else {
+            //非社团成员
+            //加入申请列表
+            applicants.push(addr);
+            //调用user的方法，返回状态
+            User user = User(addr);
+            user.actApply();
+
+            emit applicantsChangeEvent();
+        }
+    }
+
+    //获取申请列表
+    function getApplies() public view returns (address[] memory) {
+        require(msg.sender == owner, "您没有权限查询申请列表");
+        return applicants;
+    }
+
+    //通过申请
+    event applicantsChangeEvent();
+
+    function pass(address addr) public onlyApplicant(addr) {
+        require(msg.sender == owner, "您没有权限进行此操作");
+        for (uint256 i = 0; i < applicants.length; i++) {
+            if (applicants[i] == addr) {
+                User user = User(addr);
+                user.actPass();
+
+                //从申请列表移除
+                applicants[i] = applicants[applicants.length - 1];
+                applicants.pop();
+                //加入成员列表
+                members.push(addr);
+
+                emit membersChangeEvent();
+                emit applicantsChangeEvent();
+            }
+        }
+    }
+
+    //////////////通知//////////////////////////
+
+    notification[] notifications; //社团通知
+    struct notification {
+        string title;
+        string date; //yyyy-MM-dd-hh-mm-ss
+        string info;
     }
 
     function getNotification(uint256 index)
         public
         view
         onlyMember(msg.sender)
-        returns (string memory title, string memory date, string memory info)
+        returns (string memory title, string memory _date, string memory info)
     {
         return (
             notifications[index].title,
@@ -201,5 +193,21 @@ contract Activity {
         returns (uint256 amount)
     {
         return notifications.length;
+    }
+
+    //发送通知
+    event newMessageEvent(uint256 index);
+
+    function addMessage(
+        string memory _title,
+        string memory _date,
+        string memory _info
+    ) public {
+        require(msg.sender == owner, "无权发送通知");
+        notifications.push(
+            notification({title: _title, date: _date, info: _info})
+        );
+
+        emit newMessageEvent(notifications.length - 1);
     }
 }
