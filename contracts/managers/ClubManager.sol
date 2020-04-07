@@ -52,7 +52,7 @@ contract ClubManager {
         require(um.isUser(_presidium), "主席必须注册个人信息合约");
         //然后检查是否授予临时权限
         User user = User(um.users(_presidium));
-        require(user.tempAuth() == address(this), "主席必须授予临时权限");
+        require(user.checkAuth(), "主席必须授予临时权限");
 
         //记录申请
         clubApplies.push(
@@ -82,7 +82,7 @@ contract ClubManager {
     }
 
     //审核申请
-    function reviewApply(uint256 index, bool pass, string memory time)
+    function reviewApply(uint256 index, bool pass)
         public
         onlyMasterManager
     {
@@ -96,21 +96,13 @@ contract ClubManager {
             //将社团加入主席的社团列表中
             User user = User(clubApplies[index].presidium);
             user.addClub(addr);
-            //通知主席
-            user.newNotice("系统通知", address(this), time, "社团创建申请通过");
 
             //删除申请
             clubApplies[index] = clubApplies[clubApplies.length - 1];
             clubApplies.pop();
         } else {
             //通知主席团成员
-            User user = User(clubApplies[index].presidium);
-            user.newNotice(
-                "系统通知",
-                address(this),
-                time,
-                "您创建社团的请求没有通过"
-            );
+            // User user = User(clubApplies[index].presidium);
             //删除申请
             clubApplies[index] = clubApplies[clubApplies.length - 1];
             clubApplies.pop();

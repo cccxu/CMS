@@ -296,7 +296,7 @@ contract Club {
     //新建投票
     event newVoteEvent(address vote);
 
-    function addVote(string memory _name, bool open, address[] voter)
+    function addVote(string memory _name, bool open, address[] memory voter)
         public
         onlyPresidium
     {
@@ -311,7 +311,7 @@ contract Club {
         public
         view
         onlyPart(msg.sender)
-        returns (address[] _votes)
+        returns (address[] memory _votes)
     {
         return votes;
     }
@@ -338,7 +338,7 @@ contract Club {
     }
 
     //结束投票
-    event votingEndEvetn(address vote);
+    event votingEndEvent(address vote);
 
     function endVote(address vote) public onlyPresidium {
         Vote v = Vote(vote);

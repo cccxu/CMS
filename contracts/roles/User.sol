@@ -120,11 +120,21 @@ contract User {
     //其他授权
 
     //临时授权允许写myClubs列表
-    address[] public tempAuth; //设置为public，这样在申请创建社团后就可以检查是否授予了临时权限
+    address[] tempAuth; //设置为public，这样在申请创建社团后就可以检查是否授予了临时权限
 
     //授予临时权限，用于创建社团后ClubManager将社团信息写入myClubs
     function setTempAuth(address addr) public onlyOwner {
         tempAuth.push(addr);
+    }
+
+    function checkAuth() public view returns (bool) {
+        for (uint256 i = 0; i < tempAuth.length; i++) {
+            if (tempAuth[i] == msg.sender) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     ///////////////////////////////////////////////////
@@ -136,11 +146,16 @@ contract User {
     //加入的社团
     address[] myClubs;
 
+    event newClubEvent(address club);
+
     function addClub(address club) public {
         bool flag = false;
         for (uint256 i = 0; i < tempAuth.length - 1; i++) {
             if (tempAuth[i] == msg.sender) {
                 flag = true;
+                //从列表移除
+                tempAuth[i] = tempAuth[tempAuth.length - 1];
+                tempAuth.pop();
                 break;
             }
         }
@@ -152,6 +167,8 @@ contract User {
             }
         }
         myClubs.push(club);
+
+        emit newClubEvent(club);
     }
 
     function addApplyClub(address club) public onlyOwner {
@@ -337,7 +354,7 @@ contract User {
             address from,
             string memory title,
             string memory time,
-            string memory message
+            string memory _message
         )
     {
         return (
