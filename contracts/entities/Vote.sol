@@ -21,7 +21,7 @@ contract Vote {
     uint8 state; //投票状态：0 未开始 1 进行中 2 已结束
 
     //创建投票项
-    constructor(string memory _name, bool _open, address[] _voter) public {
+    constructor(string memory _name, bool _open,address[] memory _voter) public {
         owner = msg.sender;
         name = _name;
         voter = _voter;
@@ -56,7 +56,9 @@ contract Vote {
         _;
     }
 
+    //////////////////////////////////////////////////
     ////////////////////管理投票//////////////////////////
+    //////////////////////////////////////////////////
 
     //添加投票项
     function addItem(string memory _description) public {
@@ -80,8 +82,9 @@ contract Vote {
 
         state = 2;
     }
-
+    //////////////////////////////////////////////////
     ////////////////////投票和获取结果//////////////////////////
+    //////////////////////////////////////////////////
 
     //获取投票项
     function getItemsCount()
@@ -115,7 +118,7 @@ contract Vote {
             items[index].description,
             items[index].yes,
             items[index].no,
-            items[index].abs
+            items[index].abstain
         );
     }
 
@@ -126,7 +129,7 @@ contract Vote {
         //避免重复投票
         bool flag = false;
         for (uint256 i = 0; i < voted.length; i++) {
-            if (voted[i] == addr) {
+            if (voted[i] == msg.sender) {
                 flag = true;
                 break;
             }
@@ -146,7 +149,9 @@ contract Vote {
         voted.push(msg.sender);
     }
 
+    //////////////////////////////////////////////////
     ////////////////////////////通知////////////////////////
+    //////////////////////////////////////////////////
 
     struct notification {
         string title;
