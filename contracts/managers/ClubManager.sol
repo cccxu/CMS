@@ -17,7 +17,7 @@ contract ClubManager {
         address presidium;
         string message;
     }
-    ///////////权限////////////
+    // ///////////权限////////////
 
     modifier onlyMasterManager() {
         require(
@@ -27,16 +27,7 @@ contract ClubManager {
         _;
     }
 
-    //////////////社团管理///////////////////
-
-    function newClub(bytes32 _name, address _presidium)
-        internal
-        returns (address mClub)
-    {
-        address addr = address(new Club(_name, _presidium));
-        clubs.push(addr);
-        return addr;
-    }
+    // //////////////社团管理///////////////////
 
     //申请建立社团
     function applyNewClub(
@@ -88,10 +79,8 @@ contract ClubManager {
     {
         if (pass == true) {
             //创建社团
-            address addr = newClub(
-                clubApplies[index].name,
-                clubApplies[index].presidium
-            );
+            address addr = address(new Club(clubApplies[index].name,clubApplies[index].presidium));
+            clubs.push(addr);
 
             //将社团加入主席的社团列表中
             User user = User(clubApplies[index].presidium);
@@ -101,8 +90,6 @@ contract ClubManager {
             clubApplies[index] = clubApplies[clubApplies.length - 1];
             clubApplies.pop();
         } else {
-            //通知主席团成员
-            // User user = User(clubApplies[index].presidium);
             //删除申请
             clubApplies[index] = clubApplies[clubApplies.length - 1];
             clubApplies.pop();
